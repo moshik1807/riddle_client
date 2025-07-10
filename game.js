@@ -16,12 +16,12 @@ async function creatRiddleObj(a) {
 
 function riddleByLevel(readyRiddle) {
     const level = input("enter level:easy , medium , or hard  ")
-    const arrayRiddle = readyRiddle.filter((riddle) => riddle.level == level)
+    const arrayRiddle = readyRiddle.filter((riddle) => riddle.level === level)
     return arrayRiddle
 }
 
 
-async function game(){
+export default async function game(){
     const arrayRiddle = await fetch('http://localhost:2123/riddle/getAll')
     const newArrayRiddle = await arrayRiddle.json()
     const readyRiddle = await creatRiddleObj(newArrayRiddle)
@@ -34,10 +34,10 @@ async function game(){
         ridd.endTime(player)
     }
     player.printTimes()
-    fetch('http://localhost:2123/player/updeatPlayers', {
+    console.log(player);
+    await fetch('http://localhost:2123/player/updeatPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(player)
+        body: JSON.stringify(player),
     })
 }
-game()
