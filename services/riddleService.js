@@ -1,7 +1,6 @@
-// import { readFile, writeFile } from 'node:fs/promises'
-import * as dalRiddle2 from '../dal/dalriddle.js'
-const path = '../dataBase/riddles.txt'
-import * as x from './helperService.js'
+// import * as dalRiddle2 from '../dal/dalriddle.js'
+// const path = '../dataBase/riddles.txt'
+// import * as x from './helperService.js'
 import promptSync from 'prompt-sync'
 const prompt = promptSync()
 
@@ -22,15 +21,17 @@ export async function readRiddleById(id){
     return riddle
 }
 
-export function addRiddle() {
+
+export function creatRiddleObj(x) {
     const newRiddle = {}
+    newRiddle["id"] = x.length + 1
     newRiddle["level"] = prompt("enter level")
     newRiddle["name"] = prompt("enter name")
     newRiddle["taskDescription"] = prompt("enter taskDescription")
     newRiddle["correctAnswer"] = prompt("enter correctAnswer")
     newRiddle["timer"] = prompt("enter timer")
     newRiddle["hint"] = prompt("enter hint")
-    x.creat(newRiddle)
+    return newRiddle
 }
 
 export async function updeatRid() {
