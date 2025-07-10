@@ -1,14 +1,7 @@
-const prompt = promptSync()
-const choice = prompt("to play press 1"
-    + "to meneger press 2")
 
-switch (choice){
-    case "1":
-
-        break
-    case "2":
-        
-        break
-    default:
-        break
+async function getAllRiddles(){
+    const response = await fetch('http://localhost:2123/riddle/getAll')
+    const riddles = await response.json()
+    console.log(riddles)
 }
+getAllRiddles()
