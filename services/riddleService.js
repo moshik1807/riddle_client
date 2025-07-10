@@ -1,30 +1,35 @@
-// import * as dalRiddle2 from '../dal/dalriddle.js'
-// const path = '../dataBase/riddles.txt'
-// import * as x from './helperService.js'
 import promptSync from 'prompt-sync'
 const prompt = promptSync()
 
-export async function readAllRiddles() {
-    const riddles = await x.readText()
-    console.log(riddles)
-    return riddles
+
+
+// export async function readAllRiddles() {
+//     const riddles = await x.readText()
+//     console.log(riddles)
+//     return riddles
+// }
+
+//מעודכן
+export function getIdFromeUser(){
+    const id = prompt("enter id riddle to you whant delete")
+    return {id:id}
 }
 
-export async function readRiddleById(id){
-    const riddles = await x.readText()
-    let riddle
-    for(const e of riddles){
-        if(e.id == id){
-            riddle = e
-        }
-    }
-    return riddle
-}
+// export async function readRiddleById(id){
+//     const riddles = await x.readText()
+//     let riddle
+//     for(const e of riddles){
+//         if(e.id == id){
+//             riddle = e
+//         }
+//     }
+//     return riddle
+// }
 
-
+//מעודכן
 export function creatRiddleObj(x) {
     const newRiddle = {}
-    newRiddle["id"] = x.length + 1
+    newRiddle["id"] = x[x.length-1].id + 1
     newRiddle["level"] = prompt("enter level")
     newRiddle["name"] = prompt("enter name")
     newRiddle["taskDescription"] = prompt("enter taskDescription")
@@ -34,22 +39,21 @@ export function creatRiddleObj(x) {
     return newRiddle
 }
 
+
 export async function updeatRid() {
-    const objById = prompt("enter id riddle you whant to change")
-    let y = await x.readText()
-    for (let element of y) {
-        if (element.id == objById) {
-            element["taskDescription"] = prompt("enter taskDescription updeat")
-            element["correctAnswer"] = prompt("enter correctAnswer updeat")
-            element["hint"] = prompt("enter hint updeat")
-        }
-    }
-    await dalRiddle2.writeRiddle(y)
+    let riddleUpdeate = {}
+    riddleUpdeate["id"] = prompt("enter id riddle you whant to change")
+    riddleUpdeate["taskDescription"] = prompt("enter taskDescription updeat")
+    riddleUpdeate["correctAnswer"] = prompt("enter correctAnswer updeat")
+    riddleUpdeate["hint"] = prompt("enter hint updeat")
+    return riddleUpdeate
 }
 
-export function deletRiddle() {
-    const objById = prompt("enter id object to you whant delet")
-    x.delet(objById)
-}
+
+
+// export function deletRiddle() {
+//     const objById = prompt("enter id object to you whant delet")
+//     x.delet(objById)
+// }
 
 
