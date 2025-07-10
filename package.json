@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/moshik1807/riddle_client/issues"
   },
-  "homepage": "https://github.com/moshik1807/riddle_client#readme"
+  "homepage": "https://github.com/moshik1807/riddle_client#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
 }
