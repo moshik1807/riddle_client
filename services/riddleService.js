@@ -1,32 +1,13 @@
 import promptSync from 'prompt-sync'
 const prompt = promptSync()
 
-
-
-// export async function readAllRiddles() {
-//     const riddles = await x.readText()
-//     console.log(riddles)
-//     return riddles
-// }
-
-//מעודכן
 export function getIdFromeUser(){
     const id = prompt("enter id riddle to you whant delete")
     return {id:id}
 }
 
-// export async function readRiddleById(id){
-//     const riddles = await x.readText()
-//     let riddle
-//     for(const e of riddles){
-//         if(e.id == id){
-//             riddle = e
-//         }
-//     }
-//     return riddle
-// }
 
-//מעודכן
+
 export function creatRiddleObj(x) {
     const newRiddle = {}
     newRiddle["id"] = x[x.length-1].id + 1
@@ -50,10 +31,5 @@ export async function updeatRid() {
 }
 
 
-
-// export function deletRiddle() {
-//     const objById = prompt("enter id object to you whant delet")
-//     x.delet(objById)
-// }
 
 
