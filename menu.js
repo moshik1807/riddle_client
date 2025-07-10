@@ -51,3 +51,6 @@ async function menuRiddle(){
 
 
 Menu()
+
+// game()
+// game()
