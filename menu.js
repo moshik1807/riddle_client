@@ -33,6 +33,7 @@ async function menuRiddle(){
     console.log('for create new riddle press 2')
     console.log('to updeat riddle press 3')
     console.log('for delete riddle press 4')
+    console.log('to exit press 5')
     let choice = input()
     switch (choice){
         case "1":
@@ -46,11 +47,13 @@ async function menuRiddle(){
             break
         case "4":
             await menegerRiddles.deleteRiddleById()
+            break
+         case "5":
+            console.log("Bye!")
+            return
     }
 }
 
 
 Menu()
 
-// game()
-// game()

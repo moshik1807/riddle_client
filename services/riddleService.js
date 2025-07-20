@@ -10,7 +10,6 @@ export function getIdFromeUser(){
 
 export function creatRiddleObj(x) {
     const newRiddle = {}
-    newRiddle["id"] = x[x.length-1].id + 1
     newRiddle["level"] = prompt("enter level")
     newRiddle["name"] = prompt("enter name")
     newRiddle["taskDescription"] = prompt("enter taskDescription")
