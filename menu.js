@@ -4,14 +4,15 @@ import game from "./game.js";
 import * as menegerRiddles from './menegerRiddles.js'
 
 
-async function Menu(){
-    let exit = false
-    while(!exit){
+async function Menu() {
+    let exit = false;
+    let choice;
+    while (!exit) {
         console.log('for start game press 1')
         console.log('for meneger riddles press 2')
         console.log('to exit press 3')
-        let choice = input()
-        switch (choice){
+        choice = input()
+        switch (choice) {
             case "1":
                 await game()
                 break
@@ -25,17 +26,17 @@ async function Menu(){
                 break
         }
     }
-    
+
 }
 
-async function menuRiddle(){
+async function menuRiddle() {
     console.log('for read all riddles press 1')
     console.log('for create new riddle press 2')
     console.log('to updeat riddle press 3')
     console.log('for delete riddle press 4')
     console.log('to exit press 5')
     let choice = input()
-    switch (choice){
+    switch (choice) {
         case "1":
             await menegerRiddles.printAllRiddles()
             break
@@ -48,7 +49,7 @@ async function menuRiddle(){
         case "4":
             await menegerRiddles.deleteRiddleById()
             break
-         case "5":
+        case "5":
             console.log("Bye!")
             return
     }
