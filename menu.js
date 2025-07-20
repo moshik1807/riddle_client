@@ -50,7 +50,7 @@ async function menuRiddle() {
             await menegerRiddles.deleteRiddleById()
             break
         case "5":
-            console.log("Bye!")
+            console.log("goodbye!")
             return
     }
 }
