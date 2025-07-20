@@ -4,40 +4,52 @@ import Player from './models/PlayerClass.js'
 import Riddel from './models/RiddleClass.js'
 
 
+async function getRiddleByLevel(){
+    const level = input('enter level:easy , medium, or hard ')
+    const arrayRiddle = await fetch(`http://localhost:2123/riddle/getByLevel?level=${level}`)
+    const data = arrayRiddle.json()
+    return data
+}
 
-async function creatRiddleObj(a) {
-    if (a.length !== 0) {
-        let newArrayRiddle = a.map(r => new Riddel(r))
+function creatRiddleObj(riddles) {
+    if (riddles.length !== 0) {
+        let newArrayRiddle = riddles.map(r => new Riddel(r))
         return newArrayRiddle
     }
     console.log("no riddles")
 }
 
 
-function riddleByLevel(readyRiddle) {
-    const level = input("enter level:easy , medium , or hard  ")
-    const arrayRiddle = readyRiddle.filter((riddle) => riddle.level === level)
-    return arrayRiddle
-}
-
-
 export default async function game(){
-    const arrayRiddle = await fetch('http://localhost:2123/riddle/getAll')
-    const newArrayRiddle = await arrayRiddle.json()
-    const readyRiddle = await creatRiddleObj(newArrayRiddle)
-    const RiddleByLevel = riddleByLevel(readyRiddle)
+    const riddles = await  getRiddleByLevel()
+    const riddlesObj = creatRiddleObj(riddles)
     const PlayerName = input('enter your name: ')
     const player = new Player(PlayerName)
-    for (const ridd of RiddleByLevel) {
+    for (const ridd of riddlesObj) {
         ridd.startTime()
         ridd.ask()
         ridd.endTime(player)
     }
     player.printTimes()
-    console.log(player);
-    await fetch('http://localhost:2123/player/updeatPlayers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(player),
-    })
-}
+    try {
+        const playerData = {
+            name: player.name,
+            everegTime: player.everegTime,
+            times: player.times
+        }        
+        const response = await fetch('http://localhost:2123/player/updeatPlayers', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Connection': 'close' // סוגר את החיבור אחרי הבקשה
+            },
+            body: JSON.stringify(playerData),
+        })
+        if (response.ok) {
+            console.log('Player data saved successfully!')
+        } else {
+            console.log('Server responded with error:', response.status)
+        }
+    } catch (error) {
+        console.error('Failed to save player data:', error.message)
+    }}
