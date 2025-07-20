@@ -4,12 +4,17 @@ import Player from './models/PlayerClass.js'
 import Riddel from './models/RiddleClass.js'
 
 
-async function getRiddleByLevel(){
-    const level = input('enter level:easy , medium, or hard ')
+async function getRiddleByLevel() {
+    let level = ""
+    while(level !== 'easy' && level !== 'medium' && level !== 'hard'){
+        level = input('enter level:easy , medium, or hard ').trim();
+    }
+    await new Promise(resolve => setTimeout(resolve, 1000))
     const arrayRiddle = await fetch(`http://localhost:2123/riddle/getByLevel?level=${level}`)
-    const data = arrayRiddle.json()
+    const data = await arrayRiddle.json()
     return data
 }
+
 
 function creatRiddleObj(riddles) {
     if (riddles.length !== 0) {
@@ -20,10 +25,10 @@ function creatRiddleObj(riddles) {
 }
 
 
-export default async function game(){
-    const riddles = await  getRiddleByLevel()
-    const riddlesObj = creatRiddleObj(riddles)
-    const PlayerName = input('enter your name: ')
+export default async function game() {
+    let riddles = await getRiddleByLevel();
+    let riddlesObj = creatRiddleObj(riddles)
+    let PlayerName = input('enter your name: ')
     const player = new Player(PlayerName)
     for (const ridd of riddlesObj) {
         ridd.startTime()
@@ -31,25 +36,21 @@ export default async function game(){
         ridd.endTime(player)
     }
     player.printTimes()
+    await new Promise(resolve => setTimeout(resolve, 1000))
     try {
-        const playerData = {
-            name: player.name,
-            everegTime: player.everegTime,
-            times: player.times
-        }        
         const response = await fetch('http://localhost:2123/player/updeatPlayers', {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
-                'Connection': 'close' // סוגר את החיבור אחרי הבקשה
             },
-            body: JSON.stringify(playerData),
+            body: JSON.stringify(player),
         })
         if (response.ok) {
-            console.log('Player data saved successfully!')
+            console.log(await response.text())
         } else {
             console.log('Server responded with error:', response.status)
         }
     } catch (error) {
         console.error('Failed to save player data:', error.message)
-    }}
+    }
+}
