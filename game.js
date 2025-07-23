@@ -25,7 +25,8 @@ function creatRiddleObj(riddles) {
 }
 
 
-export default async function game() {
+
+export  async function game() {
     let riddles = await getRiddleByLevel();
     let riddlesObj = creatRiddleObj(riddles)
     let PlayerName = input('enter your name: ')
@@ -36,6 +37,10 @@ export default async function game() {
         ridd.endTime(player)
     }
     player.printTimes()
+    return player
+}
+
+export async function addPlayerToDB(player){
     await new Promise(resolve => setTimeout(resolve, 1000))
     try {
         const response = await fetch('http://localhost:2123/player/updeatPlayers', {
@@ -54,3 +59,6 @@ export default async function game() {
         console.error('Failed to save player data:', error.message)
     }
 }
+
+
+

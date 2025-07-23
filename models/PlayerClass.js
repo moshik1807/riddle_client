@@ -1,6 +1,7 @@
 export default class Player{
-    constructor(name){
+    constructor(name,password){
     this.name = name
+    this.password = password
     this.everegTime = 0
     this.times = []
     }

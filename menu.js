@@ -1,7 +1,37 @@
 import promptSync from 'prompt-sync';
 const input = promptSync();
-import game from "./game.js";
+import {game,addPlayerToDB} from "./game.js";
+import {PlayerObj} from './permissions.js'
 import * as menegerRiddles from './menegerRiddles.js'
+let token
+
+
+async function start(){
+    while(true){
+    console.log('To signup, press 1.')
+    console.log('To login, press 2.')
+    console.log('To enter as a guest, press 3.')
+    let choice = input()
+    switch(choice){
+        case "1":
+            const Player = PlayerObj()
+            await signup(Player)
+            break
+        case "2":
+            const player = PlayerObj()
+            token = await login(player)
+            if(token){
+                await Menu()
+            }
+            break
+        case "3":
+            await game()
+            break
+        default:
+            break
+        }
+    }
+}
 
 
 async function Menu() {
@@ -14,7 +44,8 @@ async function Menu() {
         choice = input()
         switch (choice) {
             case "1":
-                await game()
+                const player = await game()
+                await addPlayerToDB(player)
                 break
             case "2":
                 await menuRiddle()
@@ -28,6 +59,7 @@ async function Menu() {
     }
 
 }
+
 
 async function menuRiddle() {
     console.log('for read all riddles press 1')
@@ -56,5 +88,4 @@ async function menuRiddle() {
 }
 
 
-Menu()
-
+start()
