@@ -2,7 +2,8 @@ import promptSync from 'prompt-sync';
 const input = promptSync();
 import Player from './models/PlayerClass.js'
 import Riddel from './models/RiddleClass.js'
-
+import fs from 'fs/promises';
+const token = (await fs.readFile('cookies.txt', 'utf8')).trim();
 
 async function getRiddleByLevel() {
     let level = ""
@@ -29,8 +30,8 @@ function creatRiddleObj(riddles) {
 export  async function game() {
     let riddles = await getRiddleByLevel();
     let riddlesObj = creatRiddleObj(riddles)
-    let PlayerName = input('enter your name: ')
-    const player = new Player(PlayerName)
+    // let PlayerName = input('enter your name: ')
+    const player = new Player()
     for (const ridd of riddlesObj) {
         ridd.startTime()
         ridd.ask()
@@ -40,6 +41,7 @@ export  async function game() {
     return player
 }
 
+
 export async function addPlayerToDB(player){
     await new Promise(resolve => setTimeout(resolve, 1000))
     try {
@@ -47,6 +49,7 @@ export async function addPlayerToDB(player){
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization':'Bearer ' + token
             },
             body: JSON.stringify(player),
         })

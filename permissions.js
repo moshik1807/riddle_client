@@ -1,11 +1,11 @@
+import promptSync from 'prompt-sync'
 const input = promptSync();
 import Player from './models/PlayerClass.js'
 
 export function PlayerObj(){
     const name = input('enter your name: ')
     const password = input('enter password: ')
-    const player = new Player({name,password})
-    return player
+    return {name:name,password:password}
 }
 
 export async function login(user){
@@ -18,8 +18,8 @@ export async function login(user){
             },
             body: JSON.stringify(user),
         })
-        const data = response.json()
-        return data
+        const data = await response.json()
+        return data.token;
     }catch(err){
     }    
 }

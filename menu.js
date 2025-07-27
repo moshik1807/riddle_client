@@ -1,10 +1,11 @@
 import promptSync from 'prompt-sync';
 const input = promptSync();
+import { jwtDecode } from 'jwt-decode'
 import {game,addPlayerToDB} from "./game.js";
-import {PlayerObj} from './permissions.js'
+import {PlayerObj,login,signup} from './permissions.js'
 import * as menegerRiddles from './menegerRiddles.js'
+import fs from 'fs/promises'
 let token
-
 
 async function start(){
     while(true){
@@ -20,8 +21,17 @@ async function start(){
         case "2":
             const player = PlayerObj()
             token = await login(player)
+            console.log(token);
+            await fs.writeFile('cookies.txt', token);
             if(token){
-                await Menu()
+                const decoded = jwtDecode(token)
+                if (decoded.role == 'user'){
+                    const newGame = await game()
+                    console.log(newGame)
+                    await addPlayerToDB(newGame)
+                }else if(decoded.role == 'admin'){
+                    await menuRiddle()
+                }
             }
             break
         case "3":
@@ -31,33 +41,6 @@ async function start(){
             break
         }
     }
-}
-
-
-async function Menu() {
-    let exit = false;
-    let choice;
-    while (!exit) {
-        console.log('for start game press 1')
-        console.log('for meneger riddles press 2')
-        console.log('to exit press 3')
-        choice = input()
-        switch (choice) {
-            case "1":
-                const player = await game()
-                await addPlayerToDB(player)
-                break
-            case "2":
-                await menuRiddle()
-                break
-            case "3":
-                exit = true
-                break
-            default:
-                break
-        }
-    }
-
 }
 
 
@@ -86,6 +69,5 @@ async function menuRiddle() {
             return
     }
 }
-
 
 start()
