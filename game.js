@@ -2,7 +2,8 @@ import promptSync from 'prompt-sync';
 const input = promptSync();
 import Player from './models/PlayerClass.js'
 import Riddel from './models/RiddleClass.js'
-
+import fs from 'fs/promises';
+const token = (await fs.readFile('cookies.txt', 'utf8')).trim();
 
 async function getRiddleByLevel() {
     let level = ""
@@ -25,23 +26,30 @@ function creatRiddleObj(riddles) {
 }
 
 
-export default async function game() {
+
+export  async function game() {
     let riddles = await getRiddleByLevel();
     let riddlesObj = creatRiddleObj(riddles)
-    let PlayerName = input('enter your name: ')
-    const player = new Player(PlayerName)
+    // let PlayerName = input('enter your name: ')
+    const player = new Player()
     for (const ridd of riddlesObj) {
         ridd.startTime()
         ridd.ask()
         ridd.endTime(player)
     }
     player.printTimes()
+    return player
+}
+
+
+export async function addPlayerToDB(player){
     await new Promise(resolve => setTimeout(resolve, 1000))
     try {
         const response = await fetch('http://localhost:2123/player/updeatPlayers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization':'Bearer ' + token
             },
             body: JSON.stringify(player),
         })
@@ -54,3 +62,6 @@ export default async function game() {
         console.error('Failed to save player data:', error.message)
     }
 }
+
+
+

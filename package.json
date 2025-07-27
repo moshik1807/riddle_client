@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/moshik1807/riddle_client#readme",
   "dependencies": {
+    "jwt-decode": "^4.0.0",
     "prompt-sync": "^4.2.0"
   }
 }
