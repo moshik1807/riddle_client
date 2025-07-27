@@ -30,7 +30,6 @@ function creatRiddleObj(riddles) {
 export  async function game() {
     let riddles = await getRiddleByLevel();
     let riddlesObj = creatRiddleObj(riddles)
-    // let PlayerName = input('enter your name: ')
     const player = new Player()
     for (const ridd of riddlesObj) {
         ridd.startTime()

@@ -19,21 +19,21 @@ async function start() {
                 await signup(Player)
                 break
             case "2":
-                const player = PlayerObj()
-                token = await login(player)
-                console.log(token);
-                await fs.writeFile('cookies.txt', token);
-                if (token) {
-                    const decoded = jwtDecode(token)
-                    if (decoded.role == 'user') {
-                        const newGame = await game()
-                        console.log(newGame)
-                        await addPlayerToDB(newGame)
-                    } else if (decoded.role == 'admin') {
-                        await menuRiddle()
-                    }
+            const player = PlayerObj()
+            token = await login(player)
+            console.log(token);
+            await fs.writeFile('cookies.txt', token);
+            if (token) {
+                const decoded = jwtDecode(token)
+                if (decoded.role == 'user') {
+                    const newGame = await game()
+                    console.log(newGame)
+                    await addPlayerToDB(newGame)
+                } else if (decoded.role == 'admin') {
+                    await menuRiddle()
                 }
-                break
+            }
+            break
             case "3":
                 await game()
                 break
@@ -42,7 +42,6 @@ async function start() {
         }
     }
 }
-
 
 async function menuRiddle() {
     console.log('for read all riddles press 1')
