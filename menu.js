@@ -22,6 +22,10 @@ async function start() {
             const player = PlayerObj()
             token = await login(player)
             console.log(token);
+            if(!token){
+                console.log('user nam and password no found')
+                return
+            }
             await fs.writeFile('cookies.txt', token);
             if (token) {
                 const decoded = jwtDecode(token)
